@@ -1,25 +1,41 @@
 <script setup>
-// import HelloWorld from './components/HelloWorld.vue'
-import Board from './components/Board/Board.vue';
-import PinSheet from './components/PinSheet/PinSheet.vue';
-import Memo from './components/PinSheet/contents/Memo.vue';
+import Board from "./components/Board/Board.vue";
+import PinSheet from "./components/PinSheet/PinSheet.vue";
+import Memo from "./components/PinSheet/contents/Memo.vue";
+import Menu from "./components/Menu/Menu.vue";
 </script>
 
 <template>
-  <div class="container">
-    <Board> //v-for로 PinSheet 컴포넌트를 여러 개 생성
-      <PinSheet>
-        <Memo></Memo>
-      </PinSheet>
-    </Board>
-  </div>
+    <div class="container">
+        <aside :style="{ display: 'contents' }">
+            <Menu class="left"></Menu>
+            <div class="right"></div>
+        </aside>
+
+        <Board class="center">
+            <PinSheet>
+                <Memo message="이전에 쓴 메모"></Memo>
+            </PinSheet>
+        </Board>
+    </div>
 </template>
 
 <style scoped>
 .container {
-  width: 100vw;
-  height: 100vh;
-  padding: 2rem;
-  box-sizing: border-box;
+    max-width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: minmax(100px, 1fr) minmax(0, 8fr) minmax(100px, 1fr);
+    grid-template-areas: "left center right";
+}
+.left {
+    grid-area: left;
+}
+.right {
+    grid-area: right;
+}
+.center {
+    grid-area: center;
+    align-self: center;
 }
 </style>

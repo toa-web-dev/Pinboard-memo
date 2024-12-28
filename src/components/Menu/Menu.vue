@@ -1,13 +1,12 @@
 <script setup>
-
 </script>
 
 <template>
     <div>
         <menu>
             <ul>
-                <li><a>WEATHER</a></li>
-                <li><a>MEMO</a></li>
+                <li>add WEATHER</li>
+                <li onclick>add MEMO</li>
             </ul>
         </menu>
     </div>

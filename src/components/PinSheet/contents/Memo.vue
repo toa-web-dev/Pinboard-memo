@@ -1,9 +1,16 @@
-<script setup>
+<script>
 
+export default {
+    props: {
+        message: String,
+    },
+};
 </script>
 
 <template>
- <p>메모</p>
+    <div>
+        <p>{{ message }}</p>
+    </div>
 </template>
 
 <style scoped>

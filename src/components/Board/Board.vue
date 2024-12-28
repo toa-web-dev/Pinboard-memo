@@ -1,17 +1,18 @@
-<script setup>
-
-</script>
+<script setup></script>
 
 <template>
-    <div class="board">
-        <h1>보드</h1>
+    <div id="board" class="board">
+        <slot></slot>
     </div>
 </template>
 
 <style scoped>
-    .board {
-        width: 100%;
-        height: 100%;
-        border: 1px solid #000;
-    }
+.board {
+    width: 100%;
+    height: 70%;
+    background-image: url("/src/assets/board.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+}
 </style>
