@@ -1,14 +1,19 @@
 <script setup>
+import { defineEmits } from "vue";
+
+// 정의한 이벤트 이름
+const emit = defineEmits(["addMemo"]);
+
+const handleClick = () => {
+    emit("addMemo", null);
+};
 </script>
 
 <template>
     <div>
-        <menu>
-            <ul>
-                <li>add WEATHER</li>
-                <li onclick>add MEMO</li>
-            </ul>
-        </menu>
+        <ul>
+            <li v-on:click="handleClick">add MEMO</li>
+        </ul>
     </div>
 </template>
 

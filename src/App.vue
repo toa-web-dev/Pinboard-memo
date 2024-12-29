@@ -3,19 +3,28 @@ import Board from "./components/Board/Board.vue";
 import PinSheet from "./components/PinSheet/PinSheet.vue";
 import Memo from "./components/PinSheet/contents/Memo.vue";
 import Menu from "./components/Menu/Menu.vue";
+import { ref } from "vue";
+
+const handleAddMemo = (payload) => {
+    boardContents.value.push(null);
+};
+
+const boardContents = ref(["메모1", "메모2", "메모3"]);
 </script>
 
 <template>
     <div class="container">
         <aside :style="{ display: 'contents' }">
-            <Menu class="left"></Menu>
+            <Menu class="left" @addMemo="handleAddMemo"></Menu>
             <div class="right"></div>
         </aside>
 
         <Board class="center">
-            <PinSheet>
-                <Memo message="이전에 쓴 메모"></Memo>
-            </PinSheet>
+            <template v-for="(content, index) in boardContents" :key="index">
+                <PinSheet>
+                    <Memo :message="content" :index="index"></Memo>
+                </PinSheet>
+            </template>
         </Board>
     </div>
 </template>

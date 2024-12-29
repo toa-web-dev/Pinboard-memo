@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-    <div id="board" class="board">
+    <div id="Board" class="board">
         <slot></slot>
     </div>
 </template>
