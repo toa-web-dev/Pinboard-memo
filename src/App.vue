@@ -9,7 +9,7 @@ const handleAddMemo = (payload) => {
     boardContents.value.push(null);
 };
 
-const boardContents = ref(["메모1", "메모2", "메모3"]);
+const boardContents = ref(["메모"]);
 </script>
 
 <template>
