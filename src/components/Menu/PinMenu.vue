@@ -1,41 +1,30 @@
 <script setup>
-import initDragging from "../../util/DragAndDrop";
+
 const emit = defineEmits(["handlePinMenuBtn"]);
 
-function handleClick(func) {
-    switch (func) {
-        case "changeColor":
-            emit("handlePinMenuBtn", changeColor);
-            break;
-        case "moveSheet":
-            emit("handlePinMenuBtn", moveSheet);
-            break;
-        case "linkPins":
-            emit("handlePinMenuBtn", linkPins);
-            break;
-        default:
-            break;
-    }
+function handleClick() {
 
     function changeColor() {
         console.log("change color");
     }
-    function moveSheet([$pin, $sheet, $board]) {
+    function moveSheet() {
         console.log("move");
-        initDragging([$pin, $sheet, $board]);
+
     }
     function linkPins() {
         console.log("link pins");
     }
+
+    emit("handlePinMenuBtn", [changeColor, moveSheet, linkPins]);
 }
 </script>
 <template>
     <div>
         <div class="bubble">
             <ul>
-                <li v-on:click="() => handleClick('changeColor')">색 바꾸기</li>
-                <li v-on:click="() => handleClick('moveSheet')">옮기기</li>
-                <li v-on:click="() => handleClick('linkPins')">메모 연결하기</li>
+                <li @click="() => handleClick('changeColor')">색 바꾸기</li>
+                <!-- <li @click="() => handleClick('moveSheet')">옮기기</li> -->
+                <li @click="() => handleClick('linkPins')">메모 연결하기</li>
             </ul>
         </div>
         <div class="tail"></div>
@@ -63,7 +52,8 @@ function handleClick(func) {
             &:hover {
                 background-color: lightgray;
             }
-        }  }
+        }
+    }
 }
 
 .tail {}

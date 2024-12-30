@@ -1,10 +1,11 @@
 <script setup>
-import PinMenu from "../Menu/PinMenu.vue";
+import initDragging from "../../util/DragAndDrop";
 import { onMounted, ref } from "vue";
 
-const pinRef = ref(null);
-const isPinMenuVisible = ref(false);
 let $pin, $sheet, $board;
+
+const pinRef = ref(null);
+
 onMounted(() => {
     if (pinRef.value) {
         $pin = pinRef.value;
@@ -12,12 +13,31 @@ onMounted(() => {
         $board = $sheet.closest(".board");
     }
 });
-function handdleToggleMenu() {
+
+const isPinMenuVisible = ref(false);
+function handleToggleMenu() {
     isPinMenuVisible.value = !isPinMenuVisible.value;
 }
-function handlePinMenuBtn(callback) {
-    callback([$pin, $sheet, $board]);
-    handdleToggleMenu();
+
+function handlePointerdown(e) {
+    const downTime = e.timeStamp
+
+    const pointerUpHandler = (e) => handlePointerup(e, downTime);
+
+    function handlePointerup(e, downTime) {
+        const upTime = e.timeStamp
+        const duration = upTime - downTime
+        console.log("시간차", duration)
+        if (duration < 1500) {
+            console.log("이동")
+        } else {
+            console.log("연결")
+        }
+        pinRef.value.removeEventListener("pointerup", pointerUpHandler)
+    }
+
+    pinRef.value.addEventListener("pointerup", pointerUpHandler)
+
 }
 
 </script>
@@ -25,9 +45,7 @@ function handlePinMenuBtn(callback) {
 <template>
     <div class="sheet">
         <div class="pin-wrapper">
-            <PinMenu class="pin-menu" @handlePinMenuBtn="handlePinMenuBtn"
-                :style="{ visibility: isPinMenuVisible ? 'visible' : 'hidden' }" />
-            <div ref="pinRef" class="pin" @click="handdleToggleMenu"></div>
+            <div ref="pinRef" class="pin" @pointerdown="(e) => handlePointerdown(e)"></div>
         </div>
         <slot></slot>
     </div>
@@ -58,9 +76,10 @@ function handlePinMenuBtn(callback) {
             height: 24px;
             background-color: red;
             border-radius: 100%;
-            cursor: pointer;
+            cursor: grab;
             margin: auto;
-            transform: translateY(-8px);  }
+            transform: translateY(-8px);
+        }
     }
 }
 </style>
