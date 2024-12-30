@@ -1,5 +1,4 @@
 <script setup>
-import { defineEmits } from "vue";
 
 // 정의한 이벤트 이름
 const emit = defineEmits(["addMemo"]);

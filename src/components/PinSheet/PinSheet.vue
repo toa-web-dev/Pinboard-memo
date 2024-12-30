@@ -1,25 +1,33 @@
 <script setup>
-// import initDragging from "../../util/DragAndDrop";
 import PinMenu from "../Menu/PinMenu.vue";
 import { onMounted, ref } from "vue";
 
 const pinRef = ref(null);
-
+const isPinMenuVisible = ref(false);
+let $pin, $sheet, $board;
 onMounted(() => {
     if (pinRef.value) {
-        const $pin = pinRef.value;
-        const $sheet = $pin.closest(".sheet");
-        const $board = $sheet.closest(".board");
-        // initDragging($pin, $sheet, $board);
+        $pin = pinRef.value;
+        $sheet = $pin.closest(".sheet");
+        $board = $sheet.closest(".board");
     }
 });
+function handdleToggleMenu() {
+    isPinMenuVisible.value = !isPinMenuVisible.value;
+}
+function handlePinMenuBtn(callback) {
+    callback([$pin, $sheet, $board]);
+    handdleToggleMenu();
+}
+
 </script>
 
 <template>
     <div class="sheet">
         <div class="pin-wrapper">
-            <PinMenu class="pin-menu" />
-            <div ref="pinRef" class="pin"></div>
+            <PinMenu class="pin-menu" @handlePinMenuBtn="handlePinMenuBtn"
+                :style="{ visibility: isPinMenuVisible ? 'visible' : 'hidden' }" />
+            <div ref="pinRef" class="pin" @click="handdleToggleMenu"></div>
         </div>
         <slot></slot>
     </div>
@@ -52,8 +60,7 @@ onMounted(() => {
             border-radius: 100%;
             cursor: pointer;
             margin: auto;
-            transform: translateY(-8px);
-        }
+            transform: translateY(-8px);  }
     }
 }
 </style>

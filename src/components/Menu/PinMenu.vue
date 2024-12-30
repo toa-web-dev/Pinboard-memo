@@ -1,23 +1,31 @@
 <script setup>
-import { defineEmits } from "vue";
-function handleClick(type) {
-    const emit = defineEmits(["handleMove", "handleChangeColor", "handleLinkpins"]);
+import initDragging from "../../util/DragAndDrop";
+const emit = defineEmits(["handlePinMenuBtn"]);
 
-    switch (type) {
-        case "move":
-            console.log("옮기기");
-            emit("handleMove", null);
-            break;
+function handleClick(func) {
+    switch (func) {
         case "changeColor":
-            console.log("색 바꾸기");
-            emit("handleChangeColor", null);
+            emit("handlePinMenuBtn", changeColor);
+            break;
+        case "moveSheet":
+            emit("handlePinMenuBtn", moveSheet);
             break;
         case "linkPins":
-            console.log("메모 연결하기");
-            emit("handleLinkpins", null);
+            emit("handlePinMenuBtn", linkPins);
             break;
         default:
             break;
+    }
+
+    function changeColor() {
+        console.log("change color");
+    }
+    function moveSheet([$pin, $sheet, $board]) {
+        console.log("move");
+        initDragging([$pin, $sheet, $board]);
+    }
+    function linkPins() {
+        console.log("link pins");
     }
 }
 </script>
@@ -25,9 +33,9 @@ function handleClick(type) {
     <div>
         <div class="bubble">
             <ul>
-                <li v-on:click="() => handleClick('move')">옮기기</li>
                 <li v-on:click="() => handleClick('changeColor')">색 바꾸기</li>
-                <li v-on:click="() => handleClick('linkpins')">메모 연결하기</li>
+                <li v-on:click="() => handleClick('moveSheet')">옮기기</li>
+                <li v-on:click="() => handleClick('linkPins')">메모 연결하기</li>
             </ul>
         </div>
         <div class="tail"></div>
@@ -39,22 +47,24 @@ function handleClick(type) {
     background-color: whitesmoke;
     border-radius: 1rem;
     overflow: hidden;
+
     & ul {
         display: flex;
         justify-content: space-between;
         list-style: none;
         padding: 0;
         margin: 0;
+
         & li {
-          font-size: 0.9rem;
+            font-size: 0.9rem;
             padding: 0.5rem 1rem;
             cursor: pointer;
+
             &:hover {
                 background-color: lightgray;
             }
-        }
-    }
+        }  }
 }
-.tail {
-}
+
+.tail {}
 </style>
