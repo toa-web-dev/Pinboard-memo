@@ -1,9 +1,8 @@
 <script setup>
-import initDragging from "../../util/DragAndDrop";
+import initDrag from "../../util/DragAndDrop";
 import { onMounted, ref } from "vue";
 
 let $pin, $sheet, $board;
-
 const pinRef = ref(null);
 
 onMounted(() => {
@@ -14,32 +13,21 @@ onMounted(() => {
     }
 });
 
-const isPinMenuVisible = ref(false);
-function handleToggleMenu() {
-    isPinMenuVisible.value = !isPinMenuVisible.value;
-}
-
-function handlePointerdown(e) {
-    const downTime = e.timeStamp
-
-    const pointerUpHandler = (e) => handlePointerup(e, downTime);
-
-    function handlePointerup(e, downTime) {
-        const upTime = e.timeStamp
-        const duration = upTime - downTime
-        console.log("시간차", duration)
-        if (duration < 1500) {
-            console.log("이동")
+function handlePointerdown(event) {
+    const downTime = event.timeStamp;
+    document.addEventListener("pointermove", checkTimeforFunc);
+    function checkTimeforFunc(event) {
+        // 다운타임 측정 시작 후 1500ms가 지나기 전에 포인터가 움직이면 드래그로 판단. 1500ms가 지나면 연결로 판단.
+        const moveTime = event.timeStamp;
+        if (moveTime - downTime < 1500) {
+            initDrag( $sheet, $board);
         } else {
-            console.log("연결")
+            // 핀연결(e);
         }
-        pinRef.value.removeEventListener("pointerup", pointerUpHandler)
+        console.log("차이: ", moveTime - downTime);
+        document.removeEventListener("pointermove", checkTimeforFunc);
     }
-
-    pinRef.value.addEventListener("pointerup", pointerUpHandler)
-
 }
-
 </script>
 
 <template>
