@@ -19,8 +19,7 @@ function traceCursor(event, $sheet, $board) {
     const x = event.clientX - rect.x;
     const y = event.clientY - rect.y;
 
-    $sheet.style.left = `${x}px`;
+    $sheet.style.left = `${x - $sheet.offsetWidth / 2}px`;
     $sheet.style.top = `${y}px`;
-    $sheet.style.transform = "translate( -50%,0)";
     // console.log(x, y);
 }
