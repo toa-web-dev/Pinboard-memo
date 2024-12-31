@@ -10,6 +10,7 @@ onMounted(() => {
         $pin = pinRef.value;
         $sheet = $pin.closest(".sheet");
         $board = $sheet.closest(".board");
+        console.log($pin, $sheet, $board);
     }
 });
 
@@ -20,7 +21,7 @@ function handlePointerdown(event) {
         // 다운타임 측정 시작 후 1500ms가 지나기 전에 포인터가 움직이면 드래그로 판단. 1500ms가 지나면 연결로 판단.
         const moveTime = event.timeStamp;
         if (moveTime - downTime < 1500) {
-            initDrag( $sheet, $board);
+            initDrag($sheet, $board);
         } else {
             // 핀연결(e);
         }
@@ -41,7 +42,7 @@ function handlePointerdown(event) {
 
 <style scoped>
 .sheet {
-    position: relative;
+    position: absolute;
     display: inline-block;
     min-width: 100px;
     max-width: 300px;
